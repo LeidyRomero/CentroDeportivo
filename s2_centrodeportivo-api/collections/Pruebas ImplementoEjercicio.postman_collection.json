@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "ca4cd066-fcd4-4b24-b86f-5d78f230d005",
+		"name": "Pruebas ImplementoEjercicio",
+		"description": "Colección de pruebas sobre el recurso ImplementoEjercicio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un ejercicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4f2b98d-e0cf-4da1-b986-c2d50dd11fed",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_e\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : 1,\n\t\"nombre\": \"peso Muerto\" ,\n\t\"categoria\": \"relajacion\",\n\t\"duracion\": 2,\n\t\"numeroDeSeries\": 3,\n\t\"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n\t\"explicacion\": \"Levantar el peso y luego soltarlo\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"ejercicios"
+					]
+				},
+				"description": "Crea un nuevo ejercicio. El Id es inicializado por la BD y se debe ver en la respuesta.\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "23f91cab-3c8f-4a32-b49b-7e91d82068ce",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_i\",data.id);",
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;",
+							"console.log(data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\": \"Colchoneta {{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos"
+					]
+				},
+				"description": "Crea un nuevo implemento. El Id es inicializado por la BD y se debe ver en la respuesta.\r\nPara la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregarle un ejercicio a un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "de871a6d-af53-49ab-b593-606cd3db2651",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Post\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios/{{nuevo_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios",
+						"{{nuevo_id_e}}"
+					]
+				},
+				"description": "Asocia un implemento a un ejercicio en la aplicación. \r\n\r\nSe envía el Id del ejercicio y el del implemento a asociar en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar un ejercicio que no existe a un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b3391ee-d21d-4acb-94a8-0472b0e8f71f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede asociar el ejercicio ya que este no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /ejercicios/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios",
+						"0"
+					]
+				},
+				"description": "Asocia un ejercicio que no existe a un implemento en la aplicación. \r\n\r\nSe envía el Id del ejercicio y el del implemento a asociar en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /ejercicios/0 no existe.\".\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el ejercicio de un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8cac6db5-5e7b-4f72-a255-15572a9dface",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios"
+					]
+				},
+				"description": "**Release: Paso-5**\r\n\r\nConsulta un autor de un premio en la aplicación. \r\nLa petición no tiene cuerpo.\r\n\r\nSe envía el Id del autor y del premio a consultar en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener el ejercicio que no existe de un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f5629a2-5f19-479e-a18f-8b0db119b272",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede obtener el ejercicio ya que este no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /implementos/19/ejercicio no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/19/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"19",
+						"ejercicios"
+					]
+				},
+				"description": "Consulta un ejercicio que no existe de un implemento en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error.\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar un ejercicio a un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "69957a3c-f065-4012-9c8a-05234a41b814",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios/{{nuevo_id_e}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios",
+						"{{nuevo_id_e}}"
+					]
+				},
+				"description": "Actualiza el ejercicio de un implemento existente. Se envían los Ids de las entidades asociar en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar un ejercicio que no existe a un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe1e4edd-f004-4002-b212-d687e192e794",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede reemplazar el ejercicio al implemento ya que el nuevo no existe.\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /ejercicios/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios",
+						"0"
+					]
+				},
+				"description": "Asocia un ejercicio que no existe a un implemento en la aplicación. \r\n\r\nSe envían los Ids a asociar en la URL de la petición.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /ejercicios/0 no existe.\".\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un implemento con ejercicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d3852475-6d05-415b-a46e-5972c9e89099",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede borrar un implemento que tenga un ejercicio asociado.\"] = responseCode.code === 412;",
+							"let id = pm.variables.get(\"nuevo_id_i\");",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"No se puede borrar el implemento con id = \"+id+\" porque tiene un ejercicio asociado\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}"
+					]
+				},
+				"description": "Borra un implemento existente pero con ejercicio. Verifica que se genera el error.\r\n\r\n**Código HTTP esperado: 412 Precondition failed\".**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrarle el ejercicio a un implemento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1bb07436-0ef3-4806-ad28-0153e17b6c38",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/implementos/{{nuevo_id_i}}/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"implementos",
+						"{{nuevo_id_i}}",
+						"ejercicios"
+					]
+				},
+				"description": "Borra la asociación entre un implemento y un ejercicio. Se envían los ids del ejercicio y del implemento creados anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0062c40a-acd3-4e89-b997-477e077f4faf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "e944d212-8a99-4296-9ef7-fd69501a8593",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

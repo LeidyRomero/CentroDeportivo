@@ -1,0 +1,470 @@
+{
+	"info": {
+		"_postman_id": "aa55ca94-e2eb-4862-b52e-c2010c56442c",
+		"name": "PruebasSeguimientoMaquinas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a6a8ea7-37d9-46c3-b89b-5db4fc9c39b5",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_m4\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"eliptica\",\n\t\"referencia\": \"15857\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "70cb5d25-74af-485b-9c03-69c81d93f385",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_seguimiento\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tiempo\": \"{{$randomInt}}\",\n\t\"calorias\": \"{{$randomInt}}\",\n\t\"velocidadPromedio\": \"{{$randomInt}}\",\n\t\"ritmoCardiacoPromedio\": \"{{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un seguimiento 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b647d8fc-d55b-4e42-ae97-64b3bd7985ae",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_seguimiento2\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\n{\n\t\"tiempo\": \"{{$randomInt}}\",\n\t\"calorias\": \"{{$randomInt}}\",\n\t\"velocidadPromedio\": \"{{$randomInt}}\",\n\t\"ritmoCardiacoPromedio\": \"{{$randomInt}}\"\n}\n\t\n"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar una maquina a un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "928d4fa6-7fc0-4443-a233-d9e9bee4761e",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas/{{nuevo_id_m4}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas",
+						"{{nuevo_id_m4}}"
+					]
+				},
+				"description": "**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar una maquina que no existe a un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "305de367-c512-4d76-8395-e893bd4867fd",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No agrega un book con un id de un author que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /maquinas/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar maquinas a un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7f75e8e-b8e0-4156-8d66-16942aaade2c",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 29,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 290,\n        \"id\": 30,\n        \"tiempo\": 100,\n        \"velocidad\": 50,\n        \"velocidadPromedio\": 50,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 31,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": [\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 9,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            },\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 10,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            }\n        ]\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 32,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": [\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 2,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            },\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 7,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            },\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 8,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            }\n        ]\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 34,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 36,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 38,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 39,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 40,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 41,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 42,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 43,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 44,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 45,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 46,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 47,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 48,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": [\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 3,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            },\n            {\n                \"categoria\": \"relajacion\",\n                \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n                \"duracion\": 2,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"id\": 4,\n                \"nombre\": \"peso Muerto\",\n                \"numeroDeSeries\": 3\n            }\n        ]\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 49,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 50,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 51,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 52,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 53,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n    {\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 54,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    },\n      {\n        \"type\": \"maquinaDetailDTO\",\n        \"id\": 76,\n        \"nombre\": \"eliptica\",\n        \"referencia\": \"15857\",\n        \"ejercicios\": []\n    }\n    ]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar maquinas que no existen a un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc2e145a-8e29-43c1-8383-2822a5e84c79",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se pueden asociar las maquinas  ya que estas no existen\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /maquinas/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n        \"type\": \"maquinaDetailDTO\",\n        \"calorias\": 0,\n        \"id\": 0,\n        \"nombre\": \"caminadora\",\n        \"tiempo\": 0,\n        \"velocidad\": 0,\n        \"velocidadPromedio\": 0,\n        \"ejercicios\": []\n    }\n]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener las maquinas de un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4b4f5e8-b707-4a45-bf3d-3856e443581b",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"Maquina count with ejerciios\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una maquina de un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb5201f8-e084-4a67-a336-861c386fef34",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas/{{nuevo_id_m4}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas",
+						"{{nuevo_id_m4}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una maquina que no existe de un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac40855e-c5e0-4cc6-b6f7-ab4eff482f79",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede obtener un ejercicio que no existe\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_seguimiento}}/maquinas/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_seguimiento}}",
+						"maquinas",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6d42efd8-dffe-448d-9d05-23d87320be0e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a70d8e8b-94c2-49c2-b372-e7a40f8cc251",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

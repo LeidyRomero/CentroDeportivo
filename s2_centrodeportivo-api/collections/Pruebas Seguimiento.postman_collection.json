@@ -1,0 +1,328 @@
+{
+	"info": {
+		"_postman_id": "2efde658-a3c4-4a46-b29f-ea2290566a5a",
+		"name": "Pruebas Seguimiento",
+		"description": "Colección de pruebas sobre el recurso Editorial",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6a6a4ff3-2410-49ae-959d-19c0b5cd056f",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_s\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tiempo\": \"{{$randomInt}}\",\n\t\"calorias\": \"{{$randomInt}}\",\n\t\"velocidadPromedio\": \"{{$randomInt}}\",\n\t\"ritmoCardiacoPromedio\": \"{{$randomInt}}\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos"
+					]
+				},
+				"description": "Crea un nuevo seguimiento. El Id es inicializado por la BD y se debe ver en la respuesta. Para la prueba, se guarda el id en una variable que será utilizada en otras peticiones de la colección.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "72eef936-ea33-42c0-b849-f74c32c1e6c6",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_s}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_s}}"
+					]
+				},
+				"description": "Consulta un seguimiento de la aplicación.  \r\nLa petición no tiene cuerpo.\r\nSe envía el id del seguimiento deseado por la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un seguimiento que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "635923d4-e471-45fc-9e39-2671cb61d07d",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se debería obtener un seguimiento con un id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /seguimientos/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"0"
+					]
+				},
+				"description": "Consulta un seguimiento que no existe en la aplicación.  \r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /seguimientos/0 no existe.\".\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d1ba3a9f-12f2-4dea-8ed8-328c08edb346",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tiempo\": 125,\n\t\"calorias\": 140,\n\t\"velocidadPromedio\": 15,\n\t\"ritmoCardiacoPromedio\": 180\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_s}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_s}}"
+					]
+				},
+				"description": "Actualiza un seguimiento existente.Se envía el Id en la URL de la petición.\r\n\r\n**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un seguimiento que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cbdc687e-5e52-4a40-9cc0-0296ca6e1d9c",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se debería actualizar un seguimiento con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /seguimientos/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tiempo\": 125,\n\t\"calorias\": 140,\n\t\"velocidadPromedio\": 15,\n\t\"ritmoCardiacoPromedio\": 180\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"0"
+					]
+				},
+				"description": "Actualiza un seguimiento que no existe.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /seguimientos/0 no existe.\"\r\n\r\n**Código HTTP esperado: 404**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un seguimiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bbc923bd-eb17-44c4-8151-b3acec604364",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/{{nuevo_id_s}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"{{nuevo_id_s}}"
+					]
+				},
+				"description": "Borra un seguimiento. Se envía el id del seguimiento creado anteriormente.\n\n**Código HTTP esperado: 204**"
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar un seguimiento que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b7ce914-d268-4f37-b63a-bd0a7b0b4171",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se debería borrar un seguimiento con un id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /seguimientos/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/seguimientos/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"seguimientos",
+						"0"
+					]
+				},
+				"description": "Borra un seguimiento que no existe en la aplicación.\r\n\r\nPara la prueba se verifica que se genera el error y el mensaje \"El recurso /seguimientos/0 no existe.\"\r\n\r\n**Código http esperado: 404**"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2d0e0620-f501-4edf-ac66-69de3bdf924f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7b78492d-c46e-4d6a-8d90-f7dc92e1d0ac",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

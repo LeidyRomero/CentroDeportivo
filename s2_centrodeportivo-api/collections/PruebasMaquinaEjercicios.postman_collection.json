@@ -1,0 +1,511 @@
+{
+	"info": {
+		"_postman_id": "6fcb30f1-43ca-490d-b071-5d420b88cb97",
+		"name": "PruebasMaquinaEjercicios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1efd9596-14e6-4675-b59f-c0bcf9f87774",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_m3\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"eliptica\",\n\t\"referencia\": \"15859\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un ejercicio",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52efc9af-84da-4eab-8cf9-58be1f704d47",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_ejercicio\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n                \"categoria\": \"tonificacion\",\n                \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n                \"duracion\": 60,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"nombre\": \"cardio\",\n                \"numeroDeSeries\": 1\n\t\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"ejercicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un ejercicio 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4d9b1a3-653c-40d0-b14f-d04952bbb390",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_ejercicio2\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n                \"categoria\": \"tonificacion\",\n                \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n                \"duracion\": 60,\n                \"explicacion\": \"Levantar el peso y luego soltarlo\",\n                \"nombre\": \"cardio\",\n                \"numeroDeSeries\": 1\n\t\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"ejercicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un ejercicio a una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "928d4fa6-7fc0-4443-a233-d9e9bee4761e",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Post\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios/{{nuevo_id_ejercicio}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios",
+						"{{nuevo_id_ejercicio}}"
+					]
+				},
+				"description": "**Código http esperado: 200**"
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un ejercicio que no existe a una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0697c035-1623-44ab-935a-b3570e9516cb",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No agrega un book con un id de un author que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /ejercicios/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar ejercicios a una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7f75e8e-b8e0-4156-8d66-16942aaade2c",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"tonificacion\",\n        \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n        \"duracion\": 60,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 15,\n        \"nombre\": \"cardio\",\n        \"numeroDeSeries\": 1,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    },\n    {\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"tonificacion\",\n        \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n        \"duracion\": 60,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 16,\n        \"nombre\": \"cardio\",\n        \"numeroDeSeries\": 1,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    },\n    {\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"tonificacion\",\n        \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n        \"duracion\": 60,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 17,\n        \"nombre\": \"cardio\",\n        \"numeroDeSeries\": 1,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    },\n    {\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"tonificacion\",\n        \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n        \"duracion\": 60,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 18,\n        \"nombre\": \"cardio\",\n        \"numeroDeSeries\": 1,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    },\n    {\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"tonificacion\",\n        \"descripcion\": \"Ejercicio para calentamiento para los musculos\",\n        \"duracion\": 60,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 19,\n        \"nombre\": \"cardio\",\n        \"numeroDeSeries\": 1,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    }\n]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Asociar ejercicios que no existen a una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad9557e5-9a86-4f0a-802b-ecc000e7a81f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se pueden asociar los ejercicios ya que estos no existen\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /ejercicios/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\n        \"type\": \"ejercicioDetailDTO\",\n        \"categoria\": \"relajacion\",\n        \"descripcion\": \"Ejercicio de relajacion que relaja la espalda\",\n        \"duracion\": 2,\n        \"explicacion\": \"Levantar el peso y luego soltarlo\",\n        \"id\": 0,\n        \"nombre\": \"peso Muerto\",\n        \"numeroDeSeries\": 3,\n        \"implementos\": [],\n        \"zonasCuerpo\": []\n    }\n]"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener los ejercicios de una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d4b4f5e8-b707-4a45-bf3d-3856e443581b",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"Maquina count with ejerciios\"] = data.length >= 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un ejercicio de una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eb5201f8-e084-4a67-a336-861c386fef34",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios/{{nuevo_id_ejercicio2}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios",
+						"{{nuevo_id_ejercicio2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un ejercicio no asociado de una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "62861a71-9842-4af8-945e-e8aa99f81341",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede obtener un ejercicio que no esta asociado\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El ejercicio no está asociado a la maquina\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios/{{nuevo_id_ejercicio}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios",
+						"{{nuevo_id_ejercicio}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un ejercicio que no existe de una maquina",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ac40855e-c5e0-4cc6-b6f7-ab4eff482f79",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No se puede obtener un ejercicio que no existe\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/maquinas/{{nuevo_id_m3}}/ejercicios/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"maquinas",
+						"{{nuevo_id_m3}}",
+						"ejercicios",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "6d42efd8-dffe-448d-9d05-23d87320be0e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a70d8e8b-94c2-49c2-b372-e7a40f8cc251",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

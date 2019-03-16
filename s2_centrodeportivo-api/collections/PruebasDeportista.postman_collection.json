@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "cf71c78d-b97f-4f86-9927-3926f4acb0d3",
+		"name": "PruebasDeportista",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CrearDeportista",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "93fed9ba-40a3-47f9-9627-2571af3986f7",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"nuevo_id_d\", data.id);",
+							"tests['No genera error en el Post'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\t\"nombre\": \"Leidy Romero\",\n\t\t\"sexo\":true,\n\t\t\"altura\":1.62,\n\t\t\"presionSanguinea\":60,\n\t\t\"peso\":56,\n\t\t\"ritmoCardiaco\":70,\n\t\t\"medidaPiernas\":1.20,\n\t\t\"medidaCintura\":1,\n\t\t\"medidaBrazos\":1,\n\t\t\"cedula\":1233906000,\n\t\t\"ultimaActualizacionDatos\":\"2018-09-21 09:00:00\",\n\t\t\"fechaNacimiento\":\"1999-04-02 09:00:00\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/deportistas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"deportistas"
+					]
+				},
+				"description": "Retorna nulo."
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerTodosLosDeportistas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ff069456-a2bb-4769-b724-3e1220ba95e1",
+						"type": "text/javascript",
+						"exec": [
+							"tests['No genera error en el Get'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/deportistas",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"deportistas"
+					]
+				},
+				"description": "Retorna nulo."
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerUnDeportista",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cf95c040-cf51-4506-b0f9-cd66c6e2ca84",
+						"type": "text/javascript",
+						"exec": [
+							"tests['No genera error en el Get'] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/deportistas/{{nuevo_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"deportistas",
+						"{{nuevo_id_d}}"
+					]
+				},
+				"description": "Retorna nulo."
+			},
+			"response": []
+		},
+		{
+			"name": "ActualizarDeportista",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/deportistas/{{nuevo_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"deportistas",
+						"{{nuevo_id_d}}"
+					]
+				},
+				"description": "Retorna nulo."
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarDeportista",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55afbd11-e529-43c5-8022-af3dbf9ce3c2",
+						"type": "text/javascript",
+						"exec": [
+							"tests['No genera error en el Delete'] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s2_centrodeportivo-api/api/deportistas/{{nuevo_id_d}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s2_centrodeportivo-api",
+						"api",
+						"deportistas",
+						"{{nuevo_id_d}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
